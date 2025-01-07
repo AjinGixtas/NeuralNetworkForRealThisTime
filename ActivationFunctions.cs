@@ -12,14 +12,68 @@ public static class ActivationFunctions {
 	}
 	public static double ReLU(double x) { return Math.Max(0, x); }
 	public static double ReLUDerivative(double x) { return x > 0 ? 1 : 0; }
-    public static double[] Softmax(double[] x) {
-        double[] softmax = new double[x.Length];
-        double max = x[0];
-        double sumExp = 0.0;
-        for (int i = 1; i < x.Length; i++) if (x[i] > max) max = x[i];
-        for (int i = 0; i < x.Length; i++) { softmax[i] = Math.Exp(x[i] - max); sumExp += softmax[i]; }
-        for (int i = 0; i < x.Length; i++) softmax[i] /= sumExp;
-        return softmax;
+}
+public static class MatrixMath {
+    public static double[,] Add(double[,] a, double[,] b) {
+        if(a.GetLength(0) != b.GetLength(0) || a.GetLength(1) != b.GetLength(1))
+            throw new Exception("a and b dimension must be the same");
+        
+        int I = a.GetLength(0), J = a.GetLength(1);
+        for(int i = 0; i < I; ++i) {
+            for(int j = 0; j < J; ++j) {
+                a[i, j] += b[i, j];
+            }
+        }
+        return a;
     }
-    public static Matrix<double> ApplyFunction(Matrix<double> matrix, Func<double, double> func) { return matrix.Map(func); }
+
+    public static double[,] Subtract(double[,] a, double[,] b) {
+        if(a.GetLength(0) != b.GetLength(0) || a.GetLength(1) != b.GetLength(1))
+            throw new Exception("a and b dimension must be the same");
+        
+        int I = a.GetLength(0), J = a.GetLength(1);
+        for(int i = 0; i < I; ++i) {
+            for(int j = 0; j < J; ++j) {
+                a[i, j] -= b[i, j];
+            }
+        }
+        return a;
+    }
+
+    public static double[,] ScalarMultiply(double[,] a, double b) {
+        int I = a.GetLength(0), J = a.GetLength(1);
+        for(int i = 0; i < I; ++i) {
+            for(int j = 0; j < J; ++j) {
+                a[i, j] *= b;
+            }
+        }
+        return a;
+    }
+
+    public static double[,] DotProduct(double[,] a, double[,] b) {
+        if(a.GetLength(1) != b.GetLength(0))
+            throw new Exception("a width must be equal to b height");
+
+        int I = a.GetLength(0), J = b.GetLength(1), K = a.GetLength(1);
+        double[,] c = new double[I, J];
+        for(int i = 0; i < I; ++i) {
+            for(int j = 0; j < J; ++j) {
+                for(int k = 0; k < K; ++k) {
+                    c[i, j] += a[i, k] * b[k, j];
+                }
+            }
+        }
+        return c;
+    }
+
+    public static double[,] Transpose(double[,] a) {
+        int I = a.GetLength(0), J = a.GetLength(1);
+        double[,] b = new double[a.GetLength(1), a.GetLength(0)];
+        for(int i = 0; i < I; ++i) {
+            for(int j = 0; j < J; ++j) {
+                b[i, j] = a[j, i];
+            }
+        }
+        return b;
+    }
 }
