@@ -1,0 +1,15 @@
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.AssemblyInfoInputs.cache
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.AssemblyInfo.cs
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.csproj.CoreCompileInputs.cache
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.sourcelink.json
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\bin\Debug\net8.0\NeuralNetworkForRealThisTime.exe
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\bin\Debug\net8.0\NeuralNetworkForRealThisTime.deps.json
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\bin\Debug\net8.0\NeuralNetworkForRealThisTime.runtimeconfig.json
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\bin\Debug\net8.0\NeuralNetworkForRealThisTime.dll
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\bin\Debug\net8.0\NeuralNetworkForRealThisTime.pdb
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.dll
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\refint\NeuralNetworkForRealThisTime.dll
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.pdb
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\NeuralNetworkForRealThisTime.genruntimeconfig.cache
+C:\Users\TCC\Projects\ArtificialIntelligence\NeuralNetworkForRealThisTime\obj\Debug\net8.0\ref\NeuralNetworkForRealThisTime.dll
