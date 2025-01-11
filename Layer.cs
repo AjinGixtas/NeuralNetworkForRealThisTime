@@ -15,18 +15,46 @@ class Layer {
                 biases[y] = rng.NextDouble();
             }
         }
-        input = new double[inputNodeCount]; weightedInput = new double[outputNodeCount]; output = new double[outputNodeCount];
+        inputs = new double[inputNodeCount]; weightedInputs = new double[outputNodeCount]; outputs = new double[outputNodeCount];
     }
-    public double[] input, weightedInput, output;
-    public double[] CalculateOutput(double[] input) {
-        this.input = input;
+    public double[] inputs, weightedInputs, outputs;
+    public double[] CalculateOutput(double[] inputs) {
+        this.inputs = inputs;
         for (int x = 0; x < outputNodeCount; ++x) {
-            weightedInput[x] = biases[x];
+            weightedInputs[x] = biases[x];
             for (int y = 0; y < inputNodeCount; ++y) {
-                weightedInput[x] += input[y] * weights[x, y];
+                weightedInputs[x] += inputs[y] * weights[x, y];
             }
-            output[x] = activationFunction(weightedInput[x]);
+            outputs[x] = activationFunction(weightedInputs[x]);
         }
-        return output;
+        return outputs;
     }
+    // Overload for the output layer
+    public double Backwardpass(double[] targets) {
+        double errors = 0;
+        for (int x = 0; x < outputNodeCount; ++x) {
+            errors += CostFunctions.MeanSquaredError(outputs[x], targets[x]);
+            costGradientB[x] = CostFunctions.MeanSquaredErrorDerivative(outputs[x], targets[x]) * derivativeActivationFunction(weightedInputs[x]);
+            for (int y = 0; y < inputNodeCount; ++y) {
+                costGradientW[x, y] = costGradientB[x] * outputs[x];
+            }
+        }
+        return errors;
+    }
+    // Overload for the hidden layer
+    public void Backwardpass(Layer frontLayer) {
+
+    }
+    public void ApplyGradient(double learnRate) {
+        for (int x = 0; x < outputNodeCount; x++) {
+            biases[x] -= costGradientB[x] * learnRate;
+            for (int y = 0; y < inputNodeCount; y++) {
+                weights[x, y] -= costGradientW[x, y] * learnRate;
+                costGradientW[x, y] = 0;
+            }
+        }
+    }
+}
+struct LayerData {
+    double[,] weights; double[] bias; double[] outputs;
 }

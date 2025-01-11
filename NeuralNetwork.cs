@@ -9,7 +9,12 @@
             layers[i] = new(layerSizes[i], layerSizes[i + 1], ActivationFunctions.Sigmoid, ActivationFunctions.SigmoidDerivative, rng);
         }
     }
-    public void ForwardPass(double[] input) {
-        double layerOut;
+    public double[] ForwardPass(double[] input) {
+        double[] layerOutput = layers[0].CalculateOutput(input);
+        for (int i = 1; i < layers.Length; ++i) {
+            layerOutput = layers[i].CalculateOutput(layerOutput);
+        }
+        return layerOutput;
     }
+
 }

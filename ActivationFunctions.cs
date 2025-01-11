@@ -12,6 +12,10 @@ public static class ActivationFunctions {
 	public static double ReLU(double x) { return Math.Max(0, x); }
 	public static double ReLUDerivative(double x) { return x > 0 ? 1 : 0; }
 }
+public static class CostFunctions {
+    public static double MeanSquaredError(double output, double target) { return .5 * Math.Pow(output - target, 2.0); } // Not used anywhere (so far), just help with code comprehension)
+    public static double MeanSquaredErrorDerivative(double output, double target) { return output - target; }
+}
 public static class MatrixMath {
     public static void Add(ref double[,] a, double[,] b) {
         if (a.GetLength(0) != b.GetLength(0) || a.GetLength(1) != b.GetLength(1))
