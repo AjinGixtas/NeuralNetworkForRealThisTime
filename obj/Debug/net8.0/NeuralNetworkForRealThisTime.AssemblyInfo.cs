@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NeuralNetworkForRealThisTime")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8e49be50c0b4d0b95114b4ad3c8c3c18a752e39")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aeb3b515f7bb80cd27cf74761f597ed6d728855d")]
 [assembly: System.Reflection.AssemblyProductAttribute("NeuralNetworkForRealThisTime")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NeuralNetworkForRealThisTime")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
