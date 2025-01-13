@@ -16,5 +16,6 @@
         }
         return layerOutput;
     }
-
+    public void BackwardPass(double[] input, double[] target) {
+    }
 }
