@@ -1,8 +1,5 @@
 ﻿
-<<<<<<< Updated upstream
-=======
 using SkiaSharp;
->>>>>>> Stashed changes
 public class Program {
     public static void Main() {
         NeuralNetwork neuralNetwork = new([2, 3, 3, 2]);
@@ -22,16 +19,6 @@ public class Program {
         neuralNetwork.ForwardPass(inputAndTarget.Key);
         Console.WriteLine(neuralNetwork.BackwardPass(inputAndTarget.Key, inputAndTarget.Value));
     }
-<<<<<<< Updated upstream
-    public static KeyValuePair<double[], double[]> GenerateTrainingData() {
-        Random rng = new Random();
-        KeyValuePair<double[], double[]> output = new KeyValuePair<double[], double[]>();
-        double a = rng.NextDouble(), b = rng.NextDouble();
-        double _a = (5 * Math.Pow(a, 2) + 2 * Math.Pow(b, 2)) < 1 ? 1.0 : 0.0;
-        double _b = 1.0 - _a;
-        output = new KeyValuePair<double[], double[]>([a,b], [_a, _b]);
-        return output;
-=======
     public static void MNISTRun() {
         Console.WriteLine("Hello!");
         char[] displayChars = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
@@ -97,7 +84,6 @@ public class HeatmapGenerator {
         // Map value to a gradient (e.g., blue to red)
         byte r = (byte)(value * 255);
         byte b = (byte)(255 - r);
-        return new SKColor(r, 0, b);
->>>>>>> Stashed changes
+       return new SKColor(r, 0, b);
     }
 }

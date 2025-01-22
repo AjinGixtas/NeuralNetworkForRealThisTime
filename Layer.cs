@@ -1,13 +1,6 @@
-<<<<<<< Updated upstream
-class Layer {
-    public int inputNodeCount, outputNodeCount;
-    public double[,] weights, costGradientW; 
-    public double[,] weightGradients;
-=======
 public class Layer {
     public readonly int inputNodeCount, outputNodeCount;
     public double[,] weights, costGradientW;
->>>>>>> Stashed changes
     public double[] biases, costGradientB;
     public readonly Func<double, double> activationFunction, derivativeActivationFunction;
     public Layer(int inputNodeCount, int outputNodeCount, Func<double, double> activationFunction, Func<double, double> derivativeActivationFunction, Random rng) {
@@ -22,11 +15,6 @@ public class Layer {
                 weights[x, y] = rng.NextDouble();
             }
         }
-<<<<<<< Updated upstream
-        inputs = new double[inputNodeCount]; weightedInputs = new double[outputNodeCount]; outputs = new double[outputNodeCount]; 
-        weightGradients = new double[outputNodeCount, inputNodeCount];
-=======
->>>>>>> Stashed changes
     }
     public void ForwardPass(ref LayerDataWB layerDataWB, double[] inputs) {
         layerDataWB.inputs = inputs;
@@ -45,17 +33,9 @@ public class Layer {
         }
         sumSquaredLossDerivative /= outputNodeCount;
         for (int x = 0; x < outputNodeCount; ++x) {
-<<<<<<< Updated upstream
-            costGradient = CostFunctions.MeanSquaredErrorDerivative(outputs[x], targets[x]) * derivativeActivationFunction(weightedInputs[x]);
-            costGradientB[x] += costGradient;
-            for(int y = 0; y < inputNodeCount; ++y) {
-                costGradientW[x, y] += costGradient * inputs[y];
-                weightGradients[x, y] = costGradient * weights[x, y];
-=======
             layerDataWB.costGradients[x] = sumSquaredLossDerivative * derivativeActivationFunction(layerDataWB.weightedInputs[x]);
             for (int y = 0; y < inputNodeCount; ++y) {
                 layerDataWB.weightGradients[x, y] = layerDataWB.costGradients[x] * weights[x, y];
->>>>>>> Stashed changes
             }
         }
     }

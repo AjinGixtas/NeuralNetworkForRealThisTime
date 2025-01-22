@@ -1,11 +1,7 @@
-<<<<<<< Updated upstream
-﻿class NeuralNetwork {
-=======
 ﻿using Newtonsoft.Json;
 using System.Text.Json;
 
 public class NeuralNetwork {
->>>>>>> Stashed changes
     public Layer[] layers; public int[] layerSizes;
     Random rng = new();
     NeuralNetworkDataWB[] neuralNetworkDataWBs = new NeuralNetworkDataWB[0];
@@ -17,25 +13,14 @@ public class NeuralNetwork {
             layers[i] = new(layerSizes[i], layerSizes[i + 1], ActivationFunctions.Sigmoid, ActivationFunctions.SigmoidDerivative, rng);
         }
     }
-<<<<<<< Updated upstream
-    public void ForwardPass(double[] input) {
-        double[] layerOutput = layers[0].ForwardPass(input);
-=======
     public void ForwardPass(ref NeuralNetworkDataWB neuralNetworkDataWB, double[] input) {
         layers[0].ForwardPass(ref neuralNetworkDataWB.layerDataWBs[0], input);
->>>>>>> Stashed changes
         for (int i = 1; i < layers.Length; ++i) {
             layers[i].ForwardPass(ref neuralNetworkDataWB.layerDataWBs[i], neuralNetworkDataWB.layerDataWBs[i-1].outputs);
         }
     }
-<<<<<<< Updated upstream
-    public double BackwardPass(double[] input, double[] targets) {
-        double error = layers[^1].BackwardPass(targets);
-        // BACKWARD PROPAGATION!!!!!!!!!!!!!!!!!!!!!!!
-=======
     public void BackwardPass(ref NeuralNetworkDataWB neuralNetworkDataWB, double[] input, double[] targets) {
         layers[^1].BackwardPass(ref neuralNetworkDataWB.layerDataWBs[^1], targets);
->>>>>>> Stashed changes
         for (int i = layers.Length - 2; i >= 0; --i) {
             layers[i].BackwardPass(ref neuralNetworkDataWB.layerDataWBs[i], ref neuralNetworkDataWB.layerDataWBs[i+1], layers[i+1].outputNodeCount);
         }
@@ -45,8 +30,6 @@ public class NeuralNetwork {
             layers[i].ApplyGradient(batchSize, learnRate);
         }
     }
-<<<<<<< Updated upstream
-=======
     public void Train(int batchSize, double[][] inputs, double[][] targets, double learnRate, double regularizationRate) {
         double[] errors = new double[batchSize];
         if (batchSize != this.batchSize || neuralNetworkDataWBs == null) {
@@ -103,5 +86,4 @@ public struct LayerDataWB(Layer layer) {
 public struct SerializableLayerDataWB(Layer layer) {
     public double[,] weights = layer.weights, costGradientW = layer.costGradientW;
     public double[] biases = layer.biases, costGradientB = layer.costGradientB;
->>>>>>> Stashed changes
 }
