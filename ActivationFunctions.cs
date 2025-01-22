@@ -16,6 +16,12 @@ public static class CostFunctions {
     public static double MeanSquaredError(double output, double target) { return .5 * Math.Pow(output - target, 2.0); } // Not used anywhere (so far), just help with code comprehension)
     public static double MeanSquaredErrorDerivative(double output, double target) { return output - target; }
 }
+public static class LearnrateEquation {
+    public static double ExponentialDecay(double initialLearnRate, double decayRate, int iteration) { return initialLearnRate * Math.Pow(double.E, -decayRate * iteration); }
+    public static double StepDecay(double initialLearnRate, double decayFactor, double decayCycle, int iteration) { return initialLearnRate * Math.Pow(decayFactor, Math.Floor(iteration / decayCycle)); }
+    public static double LinearDecay(double initialLearnRate, double decayRate, int iteration) { return initialLearnRate - decayRate * iteration; }
+    public static double CosineAnnealing(double minLearnRate, double maxLearnRate, int maxIteration, int iteration) { return minLearnRate + .5 * (maxLearnRate - minLearnRate) * (1 + Math.Cos(iteration * Math.PI / maxIteration)); }
+}
 public static class MatrixMath {
     public static void Add(ref double[,] a, double[,] b) {
         if (a.GetLength(0) != b.GetLength(0) || a.GetLength(1) != b.GetLength(1))
