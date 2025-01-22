@@ -44,8 +44,6 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-<<<<<<< Updated upstream
-=======
           "dependencies": {
             "Json.Net": {
               "target": "Package",
@@ -60,7 +58,6 @@
               "version": "[3.116.1, )"
             }
           },
->>>>>>> Stashed changes
           "imports": [
             "net461",
             "net462",

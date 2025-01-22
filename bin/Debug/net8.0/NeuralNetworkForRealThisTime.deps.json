@@ -7,11 +7,6 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {
       "NeuralNetworkForRealThisTime/1.0.0": {
-<<<<<<< Updated upstream
-        "runtime": {
-          "NeuralNetworkForRealThisTime.dll": {}
-        }
-=======
         "dependencies": {
           "Json.Net": "1.0.33",
           "Newtonsoft.Json": "13.0.3",
@@ -76,7 +71,6 @@
             "fileVersion": "0.0.0.0"
           }
         }
->>>>>>> Stashed changes
       }
     }
   },
@@ -85,8 +79,6 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
-<<<<<<< Updated upstream
-=======
     },
     "Json.Net/1.0.33": {
       "type": "package",
@@ -122,7 +114,6 @@
       "sha512": "sha512-dRQ75MCI8oz6zAs2Y1w6pq6ARs4MhdNG+gf3doOxOxdnueDXffQLGQIxON54GDoxc0WjKOoHMKBR4DhaduwwQw==",
       "path": "skiasharp.nativeassets.win32/3.116.1",
       "hashPath": "skiasharp.nativeassets.win32.3.116.1.nupkg.sha512"
->>>>>>> Stashed changes
     }
   }
 }

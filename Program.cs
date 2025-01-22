@@ -2,22 +2,7 @@
 using SkiaSharp;
 public class Program {
     public static void Main() {
-        NeuralNetwork neuralNetwork = new([2, 3, 3, 2]);
-        KeyValuePair<double[], double[]> inputAndTarget = GenerateTrainingData();
-        neuralNetwork.ForwardPass(inputAndTarget.Key);
-        Console.WriteLine(neuralNetwork.BackwardPass(inputAndTarget.Key, inputAndTarget.Value));
-        int batchSize = 5, epoch = 10000; double learnRate = 1.0 / 3.0;
-        for (int i = 0; i < epoch; ++i) {
-            for (int j = 0; j < batchSize; ++j) {
-                inputAndTarget = GenerateTrainingData();
-                neuralNetwork.ForwardPass(inputAndTarget.Key);
-                neuralNetwork.BackwardPass(inputAndTarget.Key, inputAndTarget.Value);
-            }
-            neuralNetwork.ApplyGradient(batchSize, learnRate);
-        }
-        inputAndTarget = GenerateTrainingData();
-        neuralNetwork.ForwardPass(inputAndTarget.Key);
-        Console.WriteLine(neuralNetwork.BackwardPass(inputAndTarget.Key, inputAndTarget.Value));
+        MNISTRun();
     }
     public static void MNISTRun() {
         Console.WriteLine("Hello!");
