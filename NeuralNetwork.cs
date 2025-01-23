@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Text.Json;
 
 public class NeuralNetwork {
     public Layer[] layers; public int[] layerSizes;
@@ -30,6 +29,7 @@ public class NeuralNetwork {
             layers[i].ApplyGradient(batchSize, learnRate);
         }
     }
+    int index = 0;
     public void Train(int batchSize, double[][] inputs, double[][] targets, double learnRate, double regularizationRate) {
         double[] errors = new double[batchSize];
         if (batchSize != this.batchSize || neuralNetworkDataWBs == null) {
@@ -40,20 +40,28 @@ public class NeuralNetwork {
             ForwardPass(ref neuralNetworkDataWBs[i], inputs[i]);
             BackwardPass(ref neuralNetworkDataWBs[i], inputs[i], targets[i]);
         });
-        //for (int i = 0; i < batchSize; ++i) {
-        //    File.WriteAllText($"neuralNetworkData{index}-{i}.json", JsonConvert.SerializeObject(neuralNetworkDataWBs[i].layerDataWBs));
-        //}
-        //SerializableLayerDataWB[] serializableLayerDataWBs = new SerializableLayerDataWB[layers.Length];
-        //for (int i = 0; i < layers.Length; ++i) {
-        //    serializableLayerDataWBs[i] = new SerializableLayerDataWB(layers[i]);
-        //}
-        //File.WriteAllText($"neuralNetworkData{index}.json", JsonConvert.SerializeObject(serializableLayerDataWBs, Formatting.Indented));
+
         for (int j = 0; j < layers.Length; ++j) {
             for (int i = 0; i < batchSize; ++i) {
                 layers[j].AccumulateGradient(ref neuralNetworkDataWBs[i].layerDataWBs[j]);
             }
+        }
+        //if (index % 100 == 0 || index == 3000 - 1) {
+        //    for (int i = 0; i < batchSize; ++i) {
+        //        File.WriteAllText($"Iris_Log/neuralNetworkData{index}-{i}.json", JsonConvert.SerializeObject(neuralNetworkDataWBs[i].layerDataWBs, Formatting.Indented));
+        //    }
+        //}
+        for (int j = 0; j < layers.Length; ++j) {
             layers[j].ApplyGradient(batchSize, learnRate);
         }
+        //if (index % 100 == 0 || index == 3000 - 1) {
+        //    SerializableLayerDataWB[] serializableLayerDataWBs = new SerializableLayerDataWB[layers.Length];
+        //    for (int i = 0; i < layers.Length; ++i) {
+        //        serializableLayerDataWBs[i] = new SerializableLayerDataWB(layers[i]);
+        //    }
+        //    File.WriteAllText($"Iris_Log/neuralNetworkData{index}.json", JsonConvert.SerializeObject(serializableLayerDataWBs, Formatting.Indented));
+        //}
+        //++index;
 
         double totalError = 0.0, error = 0.0, biggestOutput = 0.0; int answerNeuralNetworkGotCorrect = 0, correctAnswer = 0, answer = 0;
         for(int i = 0; i < batchSize; ++i) {
@@ -66,7 +74,7 @@ public class NeuralNetwork {
             if (correctAnswer == answer) answerNeuralNetworkGotCorrect += 1;
             totalError += error;
         }
-        Console.WriteLine($"Mark: {answerNeuralNetworkGotCorrect}/{batchSize}, Error: {totalError}/{batchSize*neuralNetworkDataWBs[0].layerDataWBs[^1].outputs.Length/2.0}");
+        Console.WriteLine($"Mark: {answerNeuralNetworkGotCorrect}/{batchSize}, Error: {totalError}/{batchSize*neuralNetworkDataWBs[0].layerDataWBs[^1].outputs.Length/2.0}, learnRate: {learnRate}");
     }
 }
 public struct NeuralNetworkDataWB {

@@ -8,13 +8,7 @@ public class Layer {
         this.activationFunction = activationFunction; this.derivativeActivationFunction = derivativeActivationFunction;
         weights = new double[outputNodeCount, inputNodeCount]; costGradientW = new double[outputNodeCount, inputNodeCount];
         biases = new double[outputNodeCount]; costGradientB = new double[outputNodeCount];
-
-        for (int x = 0; x < outputNodeCount; x++) {
-            biases[x] = rng.NextDouble();
-            for (int y = 0; y < inputNodeCount; y++) {
-                weights[x, y] = rng.NextDouble();
-            }
-        }
+        WeightIntialization(rng);
     }
     public void ForwardPass(ref LayerDataWB layerDataWB, double[] inputs) {
         layerDataWB.inputs = inputs;
@@ -27,15 +21,10 @@ public class Layer {
         }
     }
     public void BackwardPass(ref LayerDataWB layerDataWB, double[] targets) {
-        double sumSquaredLossDerivative = 0.0;
-        for(int x = 0; x < outputNodeCount; ++x) {
-            sumSquaredLossDerivative += CostFunctions.MeanSquaredErrorDerivative(layerDataWB.outputs[x], targets[x]);
-        }
-        sumSquaredLossDerivative /= outputNodeCount;
         for (int x = 0; x < outputNodeCount; ++x) {
-            layerDataWB.costGradients[x] = sumSquaredLossDerivative * derivativeActivationFunction(layerDataWB.weightedInputs[x]);
+            layerDataWB.costGradients[x] = CostFunctions.MeanSquaredErrorDerivative(layerDataWB.outputs[x], targets[x]) * derivativeActivationFunction(layerDataWB.weightedInputs[x]);
             for (int y = 0; y < inputNodeCount; ++y) {
-                layerDataWB.weightGradients[x, y] = layerDataWB.costGradients[x] * weights[x, y];
+                layerDataWB.weightGradients[x, y] = layerDataWB.costGradients[x] * layerDataWB.inputs[y];
             }
         }
     }
@@ -48,7 +37,7 @@ public class Layer {
             layerDataWB.costGradients[x] *= derivativeActivationFunction(layerDataWB.weightedInputs[x]);
 
             for (int y = 0; y < inputNodeCount; ++y) {
-                layerDataWB.weightGradients[x, y] = layerDataWB.costGradients[x] * weights[x, y];
+                layerDataWB.weightGradients[x, y] = layerDataWB.costGradients[x] * layerDataWB.inputs[y];
             }
         }
     }
@@ -56,7 +45,7 @@ public class Layer {
         for (int x = 0; x < outputNodeCount; ++x) {
             costGradientB[x] += layerDataWB.costGradients[x];
             for (int y = 0; y < inputNodeCount; ++y) {
-                costGradientW[x, y] += layerDataWB.costGradients[x] * layerDataWB.inputs[y];
+                costGradientW[x, y] += layerDataWB.weightGradients[x, y];
             }
         }
     }
@@ -71,5 +60,27 @@ public class Layer {
         }
         Array.Clear(costGradientB, 0, costGradientB.Length);
         Array.Clear(costGradientW, 0, costGradientW.Length);
+    }
+    public void WeightIntialization(Random rng) {
+        for (int x = 0; x < outputNodeCount; x++) {
+            for (int y = 0; y < inputNodeCount; y++) {
+                weights[x, y] = RandomInNormalDistribution(rng, 0, 1) / Math.Sqrt(inputNodeCount);
+            }
+        }
+
+        double RandomInNormalDistribution(Random rng, double mean, double standardDeviation) {
+            double x1 = 1 - rng.NextDouble();
+            double x2 = 1 - rng.NextDouble();
+
+            double y1 = Math.Sqrt(-2.0 * Math.Log(x1)) * Math.Cos(2.0 * Math.PI * x2);
+            return y1 * standardDeviation + mean;
+        }
+        return;
+        weights = new double[,] {
+            { .1, .2, .3, .4},
+            { .15, .25, .35, .45 },
+            { .45, .35, .25, .15 }
+        };
+        return;
     }
 }

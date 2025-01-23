@@ -2,44 +2,33 @@
 using SkiaSharp;
 public class Program {
     public static void Main() {
-        MNISTRun();
+        Console.WriteLine("Hello! Let's begin >:J");
+        //MNISTRun();
+        IrisRun();
     }
     public static void MNISTRun() {
-        Console.WriteLine("Hello!");
-        char[] displayChars = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
-        Random random = new();
-        string imagesPath = "TrainingData/MNIST/train-images-idx3-ubyte.gz", labelsPath = "TrainingData/MNIST/train-labels-idx1-ubyte.gz";
-        var (images, labels) = MNISTReader.LoadMNIST(imagesPath, labelsPath);
-        NeuralNetwork neuralNetwork = new([784, 300, 10]);
-        int batchSize = 5, iteration = 3000; double learnRate = .975, regularizationRate = .3;
-        var (imageVectors, labelVectors) = GenerateMNISTTrainingData();
-        var (input, target) = GenerateMNISTBatch(batchSize);
+        var (inputs, targets) = DataLoader.LoadMNIST("TrainingData/MNIST/train-images-idx3-ubyte.gz", "TrainingData/MNIST/train-labels-idx1-ubyte.gz");
+        Random random = new(); NeuralNetwork neuralNetwork = new([784, 300, 10]);
+        double[][] inputBatch = [], targetBatch = []; 
 
+        int batchSize = 5, iteration = 4000; double learnRate = .975, regularizationRate = .3;
         for (int i = 0; i < iteration; ++i) {
-            (input, target) = GenerateMNISTBatch(batchSize);
-            learnRate = LearnrateEquation.CosineAnnealing(.001, .975, iteration, i);
-            neuralNetwork.Train(batchSize, input, target, learnRate, regularizationRate);
+            DataLoader.GenerateDataBatch(batchSize, ref inputBatch, ref targetBatch, ref inputs, ref targets);
+            learnRate = LearnrateEquation.CosineAnnealing(.005, .975, iteration, i);
+            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate);
             neuralNetwork.ApplyGradient(batchSize, learnRate);
         }
-
-        (double[][], double[][]) GenerateMNISTTrainingData() {
-            double[][] imageVectors = new double[images.Length][], labelVectors = new double[labels.Length][];
-            for(int i = 0; i < images.Length; ++i) {
-                imageVectors[i] = new double[28 * 28];
-                for(int j = 0; j < images[i].Length; ++j) imageVectors[i][j] = images[i][j] / 255.0;
-                labelVectors[i] = new double[10];
-                labelVectors[i][labels[i]] = 1.0;
-            }
-            return (imageVectors, labelVectors);
-        }
-        (double[][], double[][]) GenerateMNISTBatch(int batchSize) {
-            Random random = new();
-            double[][] imageBatches = new double[batchSize][], labelBatches = new double[batchSize][];
-            for(int i = 0; i < batchSize; ++i) {
-                imageBatches[i] = imageVectors[random.Next(0, imageVectors.Length)];
-                labelBatches[i] = labelVectors[random.Next(0, labelVectors.Length)];
-            }
-            return (imageBatches, labelBatches);
+    }
+    public static void IrisRun() {
+        var (inputs, targets) = DataLoader.LoadIrisDataset("TrainingData/Iris/iris.data");
+        Random random = new(); NeuralNetwork neuralNetwork = new([4, 3]);
+        int batchSize = 5, iteration = 4000; double learnRate = .8, regularizationRate = 0;
+        
+        double[][] inputBatch = [], targetBatch = []; 
+        for (int i = 0; i < iteration; ++i) {
+            DataLoader.GenerateDataBatch(batchSize, ref inputBatch, ref targetBatch, ref inputs, ref targets);
+            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate);
+            neuralNetwork.ApplyGradient(batchSize, learnRate);
         }
     }
 }
