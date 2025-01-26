@@ -1,13 +1,21 @@
-﻿using System.IO.Compression;
+﻿using System;
+using System.IO.Compression;
 
 public class DataLoader {
-    public static void GenerateDataBatch(int batchSize, ref double[][] inputsBatchContainer, ref double[][] targetsBatchContainer, ref double[][] inputs, ref double[][] targets) {
+    public static void GenerateRandomDataBatch(int batchSize, ref double[][] inputsBatchContainer, ref double[][] targetsBatchContainer, ref double[][] inputs, ref double[][] targets) {
         Random random = new();
         inputsBatchContainer = new double[batchSize][]; targetsBatchContainer = new double[batchSize][];
         for (int i = 0; i < batchSize; ++i) {
             int index = random.Next(0, inputs.Length);
             inputsBatchContainer[i] = inputs[index];
             targetsBatchContainer[i] = targets[index];
+        }
+    }
+    public static void GenerateDeterminedDataBatch(int batchSize, ref double[][] inputsBatchContainer, ref double[][] targetsBatchContainer, ref double[][] inputs, ref double[][] targets, int lowerBoundIndex) { // [lowerBound, lowerBound + batchSize)
+        inputsBatchContainer = new double[batchSize][]; targetsBatchContainer = new double[batchSize][];
+        for (int i = 0; i < batchSize; ++i) {
+            inputsBatchContainer[i] = inputs[lowerBoundIndex + i];
+            targetsBatchContainer[i] = targets[lowerBoundIndex + i];
         }
     }
     public static (double[][] images, double[][] labels) LoadMNIST(string imagesPath, string labelsPath) {

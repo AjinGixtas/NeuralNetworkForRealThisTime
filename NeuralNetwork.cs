@@ -8,9 +8,10 @@ public class NeuralNetwork {
     public NeuralNetwork(int[] layerSizes) {
         this.layerSizes = layerSizes;
         layers = new Layer[layerSizes.Length - 1];
-        for (int i = 0; i < layers.Length; i++) {
-            layers[i] = new(layerSizes[i], layerSizes[i + 1], ActivationFunctions.Sigmoid, ActivationFunctions.SigmoidDerivative, rng);
+        for (int i = 0; i < layers.Length - 1; i++) {
+            layers[i] = new(layerSizes[i], layerSizes[i + 1], ActivationFunctions.Sigmoid, ActivationFunctions.SigmoidDerivative, null, rng);
         }
+        layers[layers.Length-1] = new(layerSizes[layers.Length-1], layerSizes[layers.Length], ActivationFunctions.Softmax, ActivationFunctions.ConstantDerivative, CostFunctions.SoftmaxAndCrossEntropyDerivative, rng);
     }
     public void ForwardPass(ref NeuralNetworkDataWB neuralNetworkDataWB, double[] input) {
         layers[0].ForwardPass(ref neuralNetworkDataWB.layerDataWBs[0], input);
@@ -19,9 +20,9 @@ public class NeuralNetwork {
         }
     }
     public void BackwardPass(ref NeuralNetworkDataWB neuralNetworkDataWB, double[] input, double[] targets) {
-        layers[^1].BackwardPass(ref neuralNetworkDataWB.layerDataWBs[^1], targets);
+        layers[^1].InitialBackwardPass(ref neuralNetworkDataWB.layerDataWBs[^1], targets);
         for (int i = layers.Length - 2; i >= 0; --i) {
-            layers[i].BackwardPass(ref neuralNetworkDataWB.layerDataWBs[i], ref neuralNetworkDataWB.layerDataWBs[i+1], layers[i+1].outputNodeCount);
+            layers[i].HiddenLayerBackwardPass(ref neuralNetworkDataWB.layerDataWBs[i], ref neuralNetworkDataWB.layerDataWBs[i+1], layers[i+1].outputNodeCount);
         }
     }
     public void ApplyGradient(int batchSize, double learnRate) {
@@ -29,9 +30,7 @@ public class NeuralNetwork {
             layers[i].ApplyGradient(batchSize, learnRate);
         }
     }
-    int index = 0;
     public void Train(int batchSize, double[][] inputs, double[][] targets, double learnRate, double regularizationRate) {
-        double[] errors = new double[batchSize];
         if (batchSize != this.batchSize || neuralNetworkDataWBs == null) {
             neuralNetworkDataWBs = new NeuralNetworkDataWB[batchSize];
             for(int i = 0; i < neuralNetworkDataWBs.Length; ++i) neuralNetworkDataWBs[i] = new NeuralNetworkDataWB(this);
@@ -40,41 +39,35 @@ public class NeuralNetwork {
             ForwardPass(ref neuralNetworkDataWBs[i], inputs[i]);
             BackwardPass(ref neuralNetworkDataWBs[i], inputs[i], targets[i]);
         });
-
         for (int j = 0; j < layers.Length; ++j) {
             for (int i = 0; i < batchSize; ++i) {
                 layers[j].AccumulateGradient(ref neuralNetworkDataWBs[i].layerDataWBs[j]);
             }
         }
-        //if (index % 100 == 0 || index == 3000 - 1) {
-        //    for (int i = 0; i < batchSize; ++i) {
-        //        File.WriteAllText($"Iris_Log/neuralNetworkData{index}-{i}.json", JsonConvert.SerializeObject(neuralNetworkDataWBs[i].layerDataWBs, Formatting.Indented));
-        //    }
-        //}
         for (int j = 0; j < layers.Length; ++j) {
             layers[j].ApplyGradient(batchSize, learnRate);
         }
-        //if (index % 100 == 0 || index == 3000 - 1) {
-        //    SerializableLayerDataWB[] serializableLayerDataWBs = new SerializableLayerDataWB[layers.Length];
-        //    for (int i = 0; i < layers.Length; ++i) {
-        //        serializableLayerDataWBs[i] = new SerializableLayerDataWB(layers[i]);
-        //    }
-        //    File.WriteAllText($"Iris_Log/neuralNetworkData{index}.json", JsonConvert.SerializeObject(serializableLayerDataWBs, Formatting.Indented));
-        //}
-        //++index;
-
+    }
+    public (double, int) Test(int batchSize, double[][] inputs, double[][] targets) {
+        if (batchSize != this.batchSize || neuralNetworkDataWBs == null) {
+            neuralNetworkDataWBs = new NeuralNetworkDataWB[batchSize];
+            for (int i = 0; i < neuralNetworkDataWBs.Length; ++i) neuralNetworkDataWBs[i] = new NeuralNetworkDataWB(this);
+        }
+        Parallel.For(0, batchSize, (i) => {
+            ForwardPass(ref neuralNetworkDataWBs[i], inputs[i]);
+        });
         double totalError = 0.0, error = 0.0, biggestOutput = 0.0; int answerNeuralNetworkGotCorrect = 0, correctAnswer = 0, answer = 0;
-        for(int i = 0; i < batchSize; ++i) {
+        for (int i = 0; i < batchSize; ++i) {
             error = 0.0; biggestOutput = 0.0;
-            for(int j = 0; j < targets[i].Length; ++j) { if (targets[i][j] == 1.0) { correctAnswer = j; } }
-            for(int j = 0; j < neuralNetworkDataWBs[i].layerDataWBs[^1].outputs.Length; ++j) {
+            for (int j = 0; j < targets[i].Length; ++j) { if (targets[i][j] == 1.0) { correctAnswer = j; } }
+            for (int j = 0; j < neuralNetworkDataWBs[i].layerDataWBs[^1].outputs.Length; ++j) {
                 error += CostFunctions.MeanSquaredError(neuralNetworkDataWBs[i].layerDataWBs[^1].outputs[j], targets[i][j]);
-                if(biggestOutput < neuralNetworkDataWBs[i].layerDataWBs[^1].outputs[j]) { answer = j; biggestOutput = neuralNetworkDataWBs[i].layerDataWBs[^1].outputs[j]; }
+                if (biggestOutput < neuralNetworkDataWBs[i].layerDataWBs[^1].outputs[j]) { answer = j; biggestOutput = neuralNetworkDataWBs[i].layerDataWBs[^1].outputs[j]; }
             }
             if (correctAnswer == answer) answerNeuralNetworkGotCorrect += 1;
             totalError += error;
         }
-        Console.WriteLine($"Mark: {answerNeuralNetworkGotCorrect}/{batchSize}, Error: {totalError}/{batchSize*neuralNetworkDataWBs[0].layerDataWBs[^1].outputs.Length/2.0}, learnRate: {learnRate}");
+        return (totalError, answerNeuralNetworkGotCorrect);
     }
 }
 public struct NeuralNetworkDataWB {
