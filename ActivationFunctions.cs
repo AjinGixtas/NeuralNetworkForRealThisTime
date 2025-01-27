@@ -15,15 +15,12 @@ public static class ActivationFunctions {
         return output;
     }
 
-    // Hyperbolic Tangent (Tanh) function
     public static double[] Tanh(double[] input) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
             output[i] = Math.Tanh(input[i]);
         return output;
     }
-
-    // Derivative of Tanh function
     public static double[] TanhDerivative(double[] input) {
         double[] tanh = Tanh(input);
         double[] output = new double[input.Length];
@@ -32,15 +29,12 @@ public static class ActivationFunctions {
         return output;
     }
 
-    // Rectified Linear Unit (ReLU) function
     public static double[] ReLU(double[] input) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
             output[i] = Math.Max(0, input[i]);
         return output;
     }
-
-    // Derivative of ReLU function
     public static double[] ReLUDerivative(double[] input) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
@@ -48,15 +42,12 @@ public static class ActivationFunctions {
         return output;
     }
 
-    // Leaky ReLU function
     public static double[] LeakyReLU(double[] input, double alpha = 0.01) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
             output[i] = input[i] > 0 ? input[i] : alpha * input[i];
         return output;
     }
-
-    // Derivative of Leaky ReLU function
     public static double[] LeakyReLUDerivative(double[] input, double alpha = 0.01) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
@@ -64,7 +55,6 @@ public static class ActivationFunctions {
         return output;
     }
 
-    // Softmax function
     public static double[] Softmax(double[] input) {
         double[] output = new double[input.Length];
         double max = double.MinValue;
@@ -114,14 +104,12 @@ public static class CostFunctions {
     public static double MeanSquaredErrorDerivative(double output, double target) {
         return output - target;
     }
-
     public static double MeanAbsoluteError(double output, double target) {
         return Math.Abs(output - target);
     }
     public static double MeanAbsoluteErrorDerivative(double output, double target) {
         return output > target ? 1 : -1;
     }
-
     public static double HuberLoss(double output, double target, double delta = 1.0) {
         double error = output - target;
         return Math.Abs(error) <= delta ? 0.5 * error * error : delta * (Math.Abs(error) - 0.5 * delta);
@@ -136,7 +124,7 @@ public static class CostFunctions {
     public static double CrossEntropyDerivative(double predicted, double target) {
         return (predicted - target) / (predicted * (1 - predicted));
     }
-    // If you want to know how it work, google it :)
+    // This is because Softmax's derivative and Cross-entropy's derivative simplify to delta error :)
     public static double SoftmaxAndCrossEntropyDerivative(double predicted, double target) {
         return predicted - target;
     }
@@ -146,27 +134,20 @@ public static class LearnrateEquation {
     public static double ExponentialDecay(double initialLearnRate, double decayRate, int iteration) {
         return initialLearnRate * Math.Pow(Math.E, -decayRate * iteration);
     }
-
     public static double StepDecay(double initialLearnRate, double decayFactor, double decayCycle, int iteration) {
         return initialLearnRate * Math.Pow(decayFactor, Math.Floor(iteration / decayCycle));
     }
-
     public static double LinearDecay(double initialLearnRate, double decayRate, int iteration) {
         return Math.Max(0, initialLearnRate - decayRate * iteration);
     }
-
     public static double CosineAnnealing(double minLearnRate, double maxLearnRate, int maxIteration, int iteration) {
         return minLearnRate + 0.5 * (maxLearnRate - minLearnRate) * (1 + Math.Cos(iteration * Math.PI / maxIteration));
     }
-
     public static double PolynomialDecay(double initialLearnRate, double decayRate, int iteration, int power) {
         return initialLearnRate / Math.Pow(1 + decayRate * iteration, power);
     }
-
     public static double CyclicalLearningRate(double baseLearnRate, double maxLearnRate, int stepSize, int iteration) {
-        double cycle = Math.Floor(1 + iteration / (2.0 * stepSize));
-        double x = Math.Abs(iteration / stepSize - 2 * cycle + 1);
-        return baseLearnRate + (maxLearnRate - baseLearnRate) * Math.Max(0, (1 - x));
+        return baseLearnRate + (maxLearnRate - baseLearnRate) * Math.Max(0, (1 - Math.Abs(iteration / stepSize - 2 * Math.Floor(1 + iteration / (2.0 * stepSize)) + 1)));
     }
 }
 
