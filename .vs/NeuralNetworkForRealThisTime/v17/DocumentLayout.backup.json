@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\dataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:dataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\dataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:dataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\neuralnetwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:neuralnetwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\layer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:layer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\activationfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:activationfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|c:\\users\\tcc\\projects\\artificialintelligence\\neuralnetworkforrealthistime\\layer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7C7C49D-DFC2-44B5-9D10-6B13DC4C741D}|NeuralNetworkForRealThisTime.csproj|solutionrelative:layer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,28 +74,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
+              "Title": "DataLoader.cs",
+              "DocumentMoniker": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\DataLoader.cs",
+              "RelativeDocumentMoniker": "DataLoader.cs",
+              "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\DataLoader.cs",
+              "RelativeToolTip": "DataLoader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-27T19:06:55.194Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Layer.cs",
               "DocumentMoniker": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\Layer.cs",
               "RelativeDocumentMoniker": "Layer.cs",
               "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\Layer.cs",
               "RelativeToolTip": "Layer.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAArwBQAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAAB0AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-26T07:17:20.068Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DataLoader.cs",
-              "DocumentMoniker": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\DataLoader.cs",
-              "RelativeDocumentMoniker": "DataLoader.cs",
-              "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\DataLoader.cs",
-              "RelativeToolTip": "DataLoader.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAkwBAAAAA8AAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ActivationFunctions.cs",
+              "DocumentMoniker": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\ActivationFunctions.cs",
+              "RelativeDocumentMoniker": "ActivationFunctions.cs",
+              "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\ActivationFunctions.cs",
+              "RelativeToolTip": "ActivationFunctions.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAJEAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-23T14:26:24.926Z",
+              "WhenOpened": "2025-01-09T13:09:46.863Z",
               "EditorCaption": ""
             },
             {
@@ -106,35 +119,22 @@
               "RelativeDocumentMoniker": "NeuralNetwork.cs",
               "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\NeuralNetwork.cs",
               "RelativeToolTip": "NeuralNetwork.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAQAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADUAAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-26T07:03:37.852Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAADYAAABUAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-13T20:36:15.622Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ActivationFunctions.cs",
-              "DocumentMoniker": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\ActivationFunctions.cs",
-              "RelativeDocumentMoniker": "ActivationFunctions.cs",
-              "ToolTip": "C:\\Users\\TCC\\Projects\\ArtificialIntelligence\\NeuralNetworkForRealThisTime\\ActivationFunctions.cs",
-              "RelativeToolTip": "ActivationFunctions.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAJUAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T13:09:46.863Z",
               "EditorCaption": ""
             }
           ]

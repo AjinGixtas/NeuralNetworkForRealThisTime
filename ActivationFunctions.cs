@@ -1,38 +1,36 @@
-using System;
-
 public static class ActivationFunctions {
-    public static double[] Sigmoid(double[] input) {
+    public static double[] Sigmoid(double[] input, int dropOutMask) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
-            output[i] = 1.0 / (1.0 + Math.Exp(-input[i]));
+            output[i] = (dropOutMask & (1 << i)) == 1 ? 0.0 : 1.0 / (1.0 + Math.Exp(-input[i]));
         return output;
     }
     public static double[] SigmoidDerivative(double[] input) {
-        double[] sigmoid = Sigmoid(input);
+        double[] sigmoid = Sigmoid(input, 0);
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
             output[i] = sigmoid[i] * (1 - sigmoid[i]);
         return output;
     }
 
-    public static double[] Tanh(double[] input) {
+    public static double[] Tanh(double[] input, int dropOutMask) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
-            output[i] = Math.Tanh(input[i]);
+            output[i] = (dropOutMask & (1 << i)) == 1 ? 0.0 : Math.Tanh(input[i]);
         return output;
     }
     public static double[] TanhDerivative(double[] input) {
-        double[] tanh = Tanh(input);
+        double[] tanh = Tanh(input, 0);
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
             output[i] = 1 - (tanh[i] * tanh[i]);
         return output;
     }
 
-    public static double[] ReLU(double[] input) {
+    public static double[] ReLU(double[] input, int dropOutMask) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
-            output[i] = Math.Max(0, input[i]);
+            output[i] = (dropOutMask & (1 << i)) == 1 ? 0.0 : Math.Max(0, input[i]);
         return output;
     }
     public static double[] ReLUDerivative(double[] input) {
@@ -42,10 +40,10 @@ public static class ActivationFunctions {
         return output;
     }
 
-    public static double[] LeakyReLU(double[] input, double alpha = 0.01) {
+    public static double[] LeakyReLU(double[] input, int dropOutMask, double alpha = 0.01) {
         double[] output = new double[input.Length];
         for (int i = 0; i < input.Length; ++i)
-            output[i] = input[i] > 0 ? input[i] : alpha * input[i];
+            output[i] = (dropOutMask & (1 << i)) == 1 ? 0.0 : (input[i] > 0 ? input[i] : alpha * input[i]);
         return output;
     }
     public static double[] LeakyReLUDerivative(double[] input, double alpha = 0.01) {
@@ -55,7 +53,8 @@ public static class ActivationFunctions {
         return output;
     }
 
-    public static double[] Softmax(double[] input) {
+    public static double[] Softmax(double[] input, int dropOutMask) {
+        // UNLESS YOU ARE USING SOFTMAX FOR HIDDEN LAYER (FUCKING MOUTH BREATHER), SET THE MASK TO 0 YOU FUCKING MOUTH BREATHER
         double[] output = new double[input.Length];
         double max = double.MinValue;
         double sum = 0.0;
@@ -64,12 +63,12 @@ public static class ActivationFunctions {
             if (input[i] > max) max = input[i];
 
         for (int i = 0; i < input.Length; ++i) {
-            output[i] = Math.Exp(input[i] - max);
+            output[i] = (dropOutMask & (1 << i)) == 1 ? 0.0 : Math.Exp(input[i] - max);
             sum += output[i];
         }
 
         for (int i = 0; i < input.Length; ++i)
-            output[i] /= sum;
+            output[i] = (dropOutMask & (1 << i)) == 1 ? 0.0 : output[i] / sum;
 
         return output;
     }
@@ -77,7 +76,7 @@ public static class ActivationFunctions {
     public static double[][] SoftmaxDerivative(double[] input) {
         int length = input.Length;
         double[][] derivative = new double[length][];
-        double[] softmaxOutput = Softmax(input);
+        double[] softmaxOutput = Softmax(input, 0);
         for (int i = 0; i < length; ++i) {
             derivative[i] = new double[length];
 
@@ -97,6 +96,7 @@ public static class ActivationFunctions {
         return output;
     }
 }
+
 public static class CostFunctions {
     public static double MeanSquaredError(double output, double target) {
         return 0.5 * Math.Pow(output - target, 2.0);
@@ -184,7 +184,12 @@ public static class MatrixMath {
             }
         }
     }
-
+    public static void ScalarMultiply(ref double[] a, double b) {
+        int I = a.GetLength(0);
+        for (int i = 0; i < I; ++i) {
+                a[i] *= b;
+        }
+    }
     public static void DotProduct(double[,] a, double[,] b, ref double[,] c) {
         if (a.GetLength(1) != b.GetLength(0))
             throw new Exception("a width must be equal to b height");

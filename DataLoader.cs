@@ -12,12 +12,14 @@ public class DataLoader {
         }
     }
     public static void GenerateDeterminedDataBatch(int batchSize, ref double[][] inputsBatchContainer, ref double[][] targetsBatchContainer, ref double[][] inputs, ref double[][] targets, int lowerBoundIndex) { // [lowerBound, lowerBound + batchSize)
+        batchSize = Math.Min(batchSize, inputs.Length - lowerBoundIndex);
         inputsBatchContainer = new double[batchSize][]; targetsBatchContainer = new double[batchSize][];
         for (int i = 0; i < batchSize; ++i) {
             inputsBatchContainer[i] = inputs[lowerBoundIndex + i]; // Fix out-of-bound array error. We need a better way to divide and generate test batch. Late B)
             targetsBatchContainer[i] = targets[lowerBoundIndex + i];
         }
     }
+    
     public static (double[][] trainInputs, double[][] trainTargets, double[][] testInputs, double[][] testTargets) SplitData(double[][] inputs, double[][] targets, double testSize = 0.2) {
         int totalSize = inputs.Length, testCount = (int)(totalSize * testSize), trainCount = totalSize - testCount;
         Random random = new();
@@ -36,6 +38,7 @@ public class DataLoader {
 
         return (trainInputs, trainTargets, testInputs, testTargets);
     }
+    
     public static (double[][] images, double[][] labels) LoadMNIST(string imagesPath, string labelsPath) {
         byte[][] images = ReadImages(imagesPath);
         byte[] labels = ReadLabels(labelsPath);
@@ -103,8 +106,8 @@ public class DataLoader {
             while ((line = reader.ReadLine()) != null) {
                 var data = line.Split(',');
                 double[] features = data.Skip(2).Select(double.Parse).ToArray(); // Skip 'id' and 'diagnosis'
-                double[] label = new double[2]; // Binary label for benign/malignant
-                label[data[1] == "M" ? 1 : 0] = 1.0; // M -> [0, 1], B -> [1, 0]
+                double[] label = new double[2];
+                label[data[1] == "M" ? 1 : 0] = 1.0;
                 inputs.Add(features);
                 targets.Add(label);
             }
