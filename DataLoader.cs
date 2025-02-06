@@ -14,8 +14,14 @@ public class DataLoader {
     public static void GenerateDeterminedDataBatch(int batchSize, ref double[][] inputsBatchContainer, ref double[][] targetsBatchContainer, ref double[][] inputs, ref double[][] targets, int lowerBoundIndex) { // [lowerBound, lowerBound + batchSize)
         inputsBatchContainer = new double[batchSize][]; targetsBatchContainer = new double[batchSize][];
         for (int i = 0; i < batchSize; ++i) {
-            inputsBatchContainer[i] = inputs[lowerBoundIndex + i]; // Fix out-of-bound array error. We need a better way to divide and generate test batch. Late B)
-            targetsBatchContainer[i] = targets[lowerBoundIndex + i];
+            // Mark my word, this will be the permanent solution XD
+            if (lowerBoundIndex + i < inputs.Length) {
+                inputsBatchContainer[i] = inputs[lowerBoundIndex + i];
+                targetsBatchContainer[i] = targets[lowerBoundIndex + i];
+            } else {
+                inputsBatchContainer[i] = new double[inputs[0].Length];
+                targetsBatchContainer[i] = new double[inputs[0].Length];
+            }
         }
     }
     public static (double[][] trainInputs, double[][] trainTargets, double[][] testInputs, double[][] testTargets) SplitData(double[][] inputs, double[][] targets, double testSize = 0.2) {
