@@ -13,14 +13,16 @@ public class Layer {
 
         this.derivativeErrorFunction = derivativeErrorFunction;
     }
-    public void ForwardPass(ref LayerDataWB layerDataWB, double[] inputs) {
+    public void ForwardPass(ref LayerDataWB layerDataWB, double[] inputs, double dropOutRate, ref Random rng) {
         layerDataWB.inputs = inputs;
         for (int x = 0; x < outputNodeCount; ++x) {
+            if (rng.NextDouble() < dropOutRate) continue;
             layerDataWB.weightedInputs[x] = biases[x];
             for (int y = 0; y < inputNodeCount; ++y) {
                 layerDataWB.weightedInputs[x] += inputs[y] * weights[x, y];
             }
         }
+        MatrixMath.ScalarMultiply(ref layerDataWB.outputs, 1.0 / (1.0 - dropOutRate));
         layerDataWB.outputs = activationFunction(layerDataWB.weightedInputs);
     }
     public void InitialBackwardPass(ref LayerDataWB layerDataWB, double[] targets) {
@@ -69,12 +71,11 @@ public class Layer {
     public void WeightIntialization(Random rng) {
         for (int x = 0; x < outputNodeCount; x++) {
             for (int y = 0; y < inputNodeCount; y++) {
-                weights[x, y] = RandomInNormalDistribution(rng, 0, 1) / Math.Sqrt(inputNodeCount);
+                weights[x, y] = RandomNormalDistribution(rng, 0, 1) / Math.Sqrt(inputNodeCount);
             }
         }
-        double RandomInNormalDistribution(Random rng, double mean, double standardDeviation) {
+        double RandomNormalDistribution(Random rng, double mean, double standardDeviation) {
             return Math.Sqrt(-2.0 * Math.Log(1 - rng.NextDouble())) * Math.Cos(2.0 * Math.PI * (1 - rng.NextDouble())) * standardDeviation + mean;
         }
-        return;
     }
 }

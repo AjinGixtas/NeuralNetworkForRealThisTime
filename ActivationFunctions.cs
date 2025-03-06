@@ -184,6 +184,12 @@ public static class MatrixMath {
             }
         }
     }
+    public static void ScalarMultiply(ref double[] a, double b) {
+        int I = a.GetLength(0);
+        for (int i = 0; i < I; ++i) {
+            a[i] *= b;
+        }
+    }
 
     public static void DotProduct(double[,] a, double[,] b, ref double[,] c) {
         if (a.GetLength(1) != b.GetLength(0))

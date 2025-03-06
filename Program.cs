@@ -3,8 +3,8 @@ using SkiaSharp;
 public class Program {
     public static void Main() {
         Console.WriteLine("Hello! Let's begin >:J");
-        BreastCancerWisconsinRun();
-        //MNISTRun();
+        //BreastCancerWisconsinRun();
+        MNISTRun();
         //IrisRun();
     }
     public static void MNISTRun() {
@@ -14,11 +14,11 @@ public class Program {
         NeuralNetwork neuralNetwork = new([784, 300, 10]);
         double[][] inputBatch = [], targetBatch = []; 
 
-        int batchSize = 8, iteration = 100; double learnRate = .975, regularizationRate = .3;
+        int batchSize = 8, iteration = 10000; double learnRate = .975, regularizationRate = .3, dropOutRate = 0.0;
         for (int i = 0; i < iteration; ++i) {
             DataLoader.GenerateRandomDataBatch(batchSize, ref inputBatch, ref targetBatch, ref trainInputs, ref trainTargets);
             learnRate = LearnrateEquation.CosineAnnealing(.005, .975, iteration, i);
-            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate);
+            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate, dropOutRate);
         }
         iteration = 10_000 / batchSize;
         int totalMark = 0; double totalError = 0.0;
@@ -28,19 +28,19 @@ public class Program {
             var (error, mark) = neuralNetwork.Test(batchSize, inputBatch, targetBatch);
             totalMark += mark; totalError += error;
         }
-        Console.WriteLine($"Mark: {totalMark}/{10_000}, error: {totalError}/{10_000}");
+        Console.WriteLine($"Mark: {totalMark}/{testTargets.Length} ({totalMark * 100.0 / testTargets.Length}%), error: {totalError}/{testTargets.Length} ({totalError / testTargets.Length * 100}%)");
     }
     public static void IrisRun() {
         Console.WriteLine("Iris data set");
         var (inputs, targets) = DataLoader.LoadIrisDataset("TrainingData/Iris/iris.data");
         NeuralNetwork neuralNetwork = new([4, 3]);
-        int batchSize = 8, iteration = 5000; double learnRate = 0.0, regularizationRate = 0;
+        int batchSize = 8, iteration = 5000; double learnRate = 0.0, regularizationRate = 0, dropOutRate = 0.0;
         
         double[][] inputBatch = [], targetBatch = []; 
         for (int i = 0; i < iteration; ++i) {
             learnRate = LearnrateEquation.CosineAnnealing(.005, .975, iteration, i);
             DataLoader.GenerateRandomDataBatch(batchSize, ref inputBatch, ref targetBatch, ref inputs, ref targets);
-            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate);
+            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate, dropOutRate);
         }
     }
     public static void BreastCancerWisconsinRun() {
@@ -49,11 +49,11 @@ public class Program {
         var (trainInputs, trainTargets, testInputs, testTargets) = DataLoader.SplitData(inputs, targets, .15);
         NeuralNetwork neuralNetwork = new([30, 40, 50, 35, 2]);
         double[][] inputBatch = [], targetBatch = [];
-        int batchSize = 8, iteration = 100; double learnRate = .975, regularizationRate = .3;
+        int batchSize = 8, iteration = 100; double learnRate = .975, regularizationRate = .3, dropOutRate = .0;
         for (int i = 0; i < iteration; ++i) {
             DataLoader.GenerateRandomDataBatch(batchSize, ref inputBatch, ref targetBatch, ref trainInputs, ref trainTargets);
             learnRate = LearnrateEquation.CosineAnnealing(.005, .975, iteration, i);
-            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate);
+            neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate, dropOutRate);
         }
 
         iteration = trainInputs.Length / batchSize;
@@ -63,7 +63,7 @@ public class Program {
             var (error, mark) = neuralNetwork.Test(batchSize, inputBatch, targetBatch);
             totalMark += mark; totalError += error;
         }
-        Console.WriteLine($"Mark: {totalMark}/{trainTargets.Length}, error: {totalError}/{trainTargets.Length * 2}");
+        Console.WriteLine($"Mark: {totalMark}/{testTargets.Length} ({totalMark/testTargets.Length * 100}%), error: {totalError}/{testTargets.Length} ({totalError / testTargets.Length * 100}%)");
     }
 }
 public class HeatmapGenerator {

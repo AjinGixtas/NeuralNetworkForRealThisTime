@@ -14,7 +14,7 @@ public class DataLoader {
     public static void GenerateDeterminedDataBatch(int batchSize, ref double[][] inputsBatchContainer, ref double[][] targetsBatchContainer, ref double[][] inputs, ref double[][] targets, int lowerBoundIndex) { // [lowerBound, lowerBound + batchSize)
         inputsBatchContainer = new double[batchSize][]; targetsBatchContainer = new double[batchSize][];
         for (int i = 0; i < batchSize; ++i) {
-            // Mark my word, this will be the permanent solution XD
+            // Yea this is the permanent solution, it's simple and it works.
             if (lowerBoundIndex + i < inputs.Length) {
                 inputsBatchContainer[i] = inputs[lowerBoundIndex + i];
                 targetsBatchContainer[i] = targets[lowerBoundIndex + i];
