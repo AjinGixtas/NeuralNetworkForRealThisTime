@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-
+﻿using System.Text;
 public class NeuralNetwork {
     public Layer[] layers; public int[] layerSizes;
     Random rng = new();
-    NeuralNetworkDataWB[] neuralNetworkDataWBs = new NeuralNetworkDataWB[0];
+    NeuralNetworkDataWB[] neuralNetworkDataWBs = [];
     int batchSize = 0;
     public NeuralNetwork(int[] layerSizes) {
         this.layerSizes = layerSizes;
@@ -81,6 +80,30 @@ public class NeuralNetwork {
         }
         return (totalError, answerNeuralNetworkGotCorrect);
     }
+    public void ExportConfiguration(string filePath) {
+        File.WriteAllText(filePath, "");
+        FileStream fs = new(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+        StreamWriter writer = new(fs, Encoding.UTF8);
+        writer.WriteLine($"{layers.Length}");
+        for(int i = 0; i < layers.Length; ++i) {
+            writer.WriteLine($"{layers[i].inputNodeCount} {layers[i].outputNodeCount} {layers[i].activationFunction.Method.Name}");
+            
+            for(int j = 0; j < layers[i].outputNodeCount; ++j) {
+                for(int k = 0; k < layers[i].inputNodeCount; ++k) {
+                    writer.Write($"{layers[i].weights[j, k]} ");
+                }
+                writer.Write("\n");
+            }
+            for(int j = 0; j < layers[i].outputNodeCount; ++j) {
+                writer.Write($"{layers[i].biases[j]} ");
+            }
+            writer.Write("\n");
+        }
+        writer.Close(); fs.Close();
+    }
+    public void ImportConfiguration(string filePath) {
+        FileStream fs = new(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+    }
 }
 public struct NeuralNetworkDataWB {
     public LayerDataWB[] layerDataWBs;
@@ -99,4 +122,14 @@ public struct LayerDataWB(Layer layer) {
 public struct SerializableLayerDataWB(Layer layer) {
     public double[,] weights = layer.weights, costGradientW = layer.costGradientW;
     public double[] biases = layer.biases, costGradientB = layer.costGradientB;
+}
+public struct NeuralNetworkExportContainer(NeuralNetwork neuralNetwork) {
+    LayerExportContainer[] layerExportContainers = neuralNetwork.layers.Select(item => new LayerExportContainer(item)).ToArray();
+    public struct LayerExportContainer(Layer layer) {
+        int inputNodeCount = layer.inputNodeCount, outputNodeCount = layer.outputNodeCount;
+        double[,] weights = layer.weights;
+        double[] biases = layer.biases;
+        Func<double[], double[]> activationFunction = layer.activationFunction, derivativeActivationFunction = layer.derivativeActivationFunction;
+        Func<double, double, double>? derivativeErrorFunction = layer.derivativeErrorFunction;
+    }
 }

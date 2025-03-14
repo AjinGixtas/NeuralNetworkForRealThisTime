@@ -2,10 +2,11 @@
 using SkiaSharp;
 public class Program {
     public static void Main() {
-        Console.WriteLine("Hello! Let's begin >:J");
+        Console.WriteLine("Hello! 5... 4... 3.. 21GO!");
         //BreastCancerWisconsinRun();
-        MNISTRun();
+        //MNISTRun();
         //IrisRun();
+        PiMirror.GenerateModel();
     }
     public static void MNISTRun() {
         Console.WriteLine("MNIST number data set");
@@ -29,6 +30,7 @@ public class Program {
             totalMark += mark; totalError += error;
         }
         Console.WriteLine($"Mark: {totalMark}/{testTargets.Length} ({totalMark * 100.0 / testTargets.Length}%), error: {totalError}/{testTargets.Length} ({totalError / testTargets.Length * 100}%)");
+        neuralNetwork.ExportConfiguration("MNIST_Model_Config.txt");
     }
     public static void IrisRun() {
         Console.WriteLine("Iris data set");
@@ -42,6 +44,7 @@ public class Program {
             DataLoader.GenerateRandomDataBatch(batchSize, ref inputBatch, ref targetBatch, ref inputs, ref targets);
             neuralNetwork.Train(batchSize, inputBatch, targetBatch, learnRate, regularizationRate, dropOutRate);
         }
+        neuralNetwork.ExportConfiguration("Iris_Model_Config.txt");
     }
     public static void BreastCancerWisconsinRun() {
         Console.WriteLine("Breast cancer data set");
@@ -64,6 +67,7 @@ public class Program {
             totalMark += mark; totalError += error;
         }
         Console.WriteLine($"Mark: {totalMark}/{testTargets.Length} ({totalMark/testTargets.Length * 100}%), error: {totalError}/{testTargets.Length} ({totalError / testTargets.Length * 100}%)");
+        neuralNetwork.ExportConfiguration("BreastCancerWisconsin_Model_Config.txt");
     }
 }
 public class HeatmapGenerator {
