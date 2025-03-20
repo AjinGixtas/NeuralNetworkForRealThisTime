@@ -2,33 +2,30 @@
 
 public static class PiMirror
 {
-    public static void GenerateModel() {
-        NeuralNetwork feedNetwork = new([1, 3*16*16, 1]);
-        int dataSize = 8000;
-        double[][] inputs = new double[dataSize][], targets = new double[dataSize][];
-        GenerateCustomNoiseData(dataSize, ref inputs, ref targets);
-        int batchSize = 10;
-        double[][] inputBatch = new double[batchSize][], targetBatch = new double[batchSize][];
-        for(int i = 0; i < 5000; ++i) {
-            GenerateNoiseTrainingBatch(batchSize, ref inputBatch, ref targetBatch, ref inputs, ref targets);
-            feedNetwork.Train(batchSize, inputBatch, targetBatch, .75, 0, 0);
-        }
-        feedNetwork.ExportConfiguration("PiMirror_Model_Config.txt");
+    public static void Run() {
+        NeuralNetwork neuralNetwork = new([256, 64, 10]);
+
     }
-    static (double[][], double[][]) GenerateCustomNoiseData(int length, ref double[][] inputs, ref double[][] targets) {
+    public static (double[][], double[][]) GenerateTrainingData(string filePath, int batchSize, int inputSize) {
+        double[][] input = new double[batchSize][], target = new double[batchSize][];
         Random random = new();
-        for(int i = 0; i < length; ++i) { 
-            inputs[i] =  [ Math.PI ]; 
-            targets[i] = (random.Next() < .75 ? [Math.PI] : [ Math.PI + (random.NextDouble()-.5)*LearnrateEquation.CosineAnnealing(0.0, Math.PI, 50, i)*2.0 ]); 
+        using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+        using (StreamReader reader = new StreamReader(fs)) {
+            int startingIndex, endingIndex; char[] buffer = new char[inputSize];
+            for (int i = 0; i < batchSize; ++i) {
+                input[i] = new double[inputSize];
+                startingIndex = random.Next(1_000_000_000-inputSize); endingIndex = startingIndex + inputSize;
+                fs.Seek(startingIndex, SeekOrigin.Begin);
+                for(int j = startingIndex; j < endingIndex; ++j) {
+
+                }
+            }
+            fs.Seek(1000000, SeekOrigin.Begin);
+
+            char[] buffer = new char[100];
+            reader.Read(buffer, 0, buffer.Length);
+            Console.WriteLine(new string(buffer));
         }
-        return (inputs, targets);
-    }
-    static void GenerateNoiseTrainingBatch(int length, ref double[][] inputBatch, ref double[][] targetBatch, ref double[][] inputs, ref double[][] targets) {
-        Random random = new Random();
-        for (int i = 0; i < length; ++i) {
-            int index = random.Next(0, inputs.Length);
-            inputBatch[i] = inputs[index];
-            targetBatch[i] = targets[index];
-        }
+        return (input, target);
     }
 }

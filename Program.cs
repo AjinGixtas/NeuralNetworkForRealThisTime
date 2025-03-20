@@ -1,12 +1,10 @@
-﻿
-using SkiaSharp;
+﻿using SkiaSharp;
 public class Program {
     public static void Main() {
         Console.WriteLine("Hello! 5... 4... 3.. 21GO!");
         //BreastCancerWisconsinRun();
         //MNISTRun();
         //IrisRun();
-        PiMirror.GenerateModel();
     }
     public static void MNISTRun() {
         Console.WriteLine("MNIST number data set");
@@ -69,6 +67,7 @@ public class Program {
         Console.WriteLine($"Mark: {totalMark}/{testTargets.Length} ({totalMark/testTargets.Length * 100}%), error: {totalError}/{testTargets.Length} ({totalError / testTargets.Length * 100}%)");
         neuralNetwork.ExportConfiguration("BreastCancerWisconsin_Model_Config.txt");
     }
+    
 }
 public class HeatmapGenerator {
     public static void CreateHeatmap(double[,] data, string filePath) {
